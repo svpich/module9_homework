@@ -34,16 +34,16 @@ const parser = new DOMParser();
 const xmlDOM = parser.parseFromString(xml, "text/xml");
 
 let resultList = [];
-const studentList = xmlDOM.getElementsByTagName("student");
+const studentList = xmlDOM.querySelectorAll("student");
 
 for (let i = 0; i < studentList.length; i++) {
     const studentNode = studentList[i];
 
-    const nameNode = studentNode.getElementsByTagName("name")[0];
-    const firstNameNode = nameNode.getElementsByTagName("first")[0];
-    const secondNameNode = nameNode.getElementsByTagName("second")[0];
-    const profNode = studentNode.getElementsByTagName("prof")[0];
-    const ageNode = studentNode.getElementsByTagName("age")[0];
+    const nameNode = studentNode.querySelector("name");
+    const firstNameNode = nameNode.querySelector("first");
+    const secondNameNode = nameNode.querySelector("second");
+    const profNode = studentNode.querySelector("prof");
+    const ageNode = studentNode.querySelector("age");
 
     const nameAttr = nameNode.getAttribute("lang");
 
