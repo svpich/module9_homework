@@ -1,0 +1,9 @@
+#input {
+    margin-bottom: 5px;
+}
+
+.image-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5px;
+}
