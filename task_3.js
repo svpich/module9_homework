@@ -1,3 +1,7 @@
+/**  В задании указано что надо использовать апи https://picsum.photos/v2/list?limit=10 но у меня запрос возвращал 403, "Елизавета Малышева | Ментор" сказала что можно использовать https://jsonplaceholder.typicode.com/photos .
+     У них не нашел в описании апи как можно ограничить выборку по кол-ву. Реализовал ограничение програмно.
+*/
+
 const imageWrapperNode = document.querySelector(".image-wrapper");
 let input_btn = document.querySelector('#input_btn');
 
@@ -6,29 +10,36 @@ input_btn.addEventListener("click", function () {
     console.log(limitImage);
 
     if (limitImage < 1 || limitImage > 10) {
-        console.log("Число вне диапазона от 1 до 10") // Нужно вывести в див это текст
+        imageWrapperNode.innerHTML =
+            `
+            <div>
+                <p>Число вне диапазона от 1 до 10</p>
+            </div>
+            `;
     } else {
-        getImage(limitImage, );
+        getImage(showImage, limitImage);
     }
 })
 
-const showImage = function (apiData) {
+const showImage = function (apiData, limitImage) {
     let cards = "";
+    debugger;
 
-    apiData.array.forEach(element => {
+    for(let i = 0; i < limitImage; i++) {
         const cardBlock = `
         <div class="card">
-            <img src="${element.download_url}" class="card-image"/>
+            <img src="${apiData[i].url}" class="card-image"/>
         </div>`;
         cards += cardBlock;
-    });
-    imageWrapperNode.innerHTML(cardBlock);
+    }
+
+    imageWrapperNode.innerHTML = cards;
 }
 
-const getImage = function (limitImage, callback) {
+const getImage = function (callback, limitImage) {
     let httpClient = new XMLHttpRequest();
 
-    httpClient.open("GET", `https://picsum.photos/v2/list?limit=${limitImage}`, true);
+    httpClient.open("GET", `https://jsonplaceholder.typicode.com/photos`, true);
 
     httpClient.onload = function () {
         if (httpClient.status != 200) {
@@ -36,12 +47,14 @@ const getImage = function (limitImage, callback) {
         } else {
             const response = JSON.parse(httpClient.response);
             if (callback) {
-                callback(response);
+                callback(response, limitImage);
             }
         }
     }
+
     httpClient.onerror = function () {
         console.log("Ошибка! Статсу ответа: ", httpClient.status)
     }
+
     httpClient.send();
 }
