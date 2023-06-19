@@ -1,0 +1,10 @@
+#input {
+    margin-bottom: 5px;
+}
+
+.image-wrapper {
+    margin-top: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5px;
+}
