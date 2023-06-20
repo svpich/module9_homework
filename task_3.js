@@ -1,7 +1,3 @@
-/**  В задании указано что надо использовать апи https://picsum.photos/v2/list?limit=10 но у меня запрос возвращал 403, "Елизавета Малышева | Ментор" сказала что можно использовать https://jsonplaceholder.typicode.com/photos .
-     У них не нашел в описании апи как можно ограничить выборку по кол-ву. Реализовал ограничение програмно. ¯\_(ツ)_/¯
-*/
-
 const imageWrapperNode = document.querySelector(".image-wrapper");
 let input_btn = document.querySelector('#input_btn');
 
@@ -21,11 +17,10 @@ input_btn.addEventListener("click", function () {
     }
 })
 
-const showImage = function (apiData, limitImage) {
+const showImage = function (apiData) {
     let cards = "";
-    debugger;
 
-    for(let i = 0; i < limitImage; i++) {
+    for(let i = 0; i < apiData.length; i++) {
         const cardBlock = `
         <div class="card">
             <img src="${apiData[i].url}" class="card-image"/>
@@ -39,7 +34,7 @@ const showImage = function (apiData, limitImage) {
 const getImage = function (callback, limitImage) {
     let httpClient = new XMLHttpRequest();
 
-    httpClient.open("GET", `https://jsonplaceholder.typicode.com/photos`, true);
+    httpClient.open("GET", `https://jsonplaceholder.typicode.com/photos?_limit=${limitImage}`, true);
 
     httpClient.onload = function () {
         if (httpClient.status != 200) {
@@ -47,7 +42,7 @@ const getImage = function (callback, limitImage) {
         } else {
             const response = JSON.parse(httpClient.response);
             if (callback) {
-                callback(response, limitImage);
+                callback(response);
             }
         }
     }
